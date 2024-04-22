@@ -25,6 +25,7 @@ public class Board {
 
 
 
+
     public Board() {
         this.positions = new Piece[8][8];
         this.startPosition = new Position(-1,-1);
@@ -143,8 +144,6 @@ public class Board {
         } else {
             banderaJaque = true;
         }
-
-        System.out.println("Pieza movida correctamente.");
 
         return banderaJaque;
     }

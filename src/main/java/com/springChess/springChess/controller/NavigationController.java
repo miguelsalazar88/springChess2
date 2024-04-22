@@ -15,5 +15,4 @@ public class NavigationController {
         return "chess_board";
     }
 
-
 }

@@ -1,6 +1,7 @@
 var hasGameStarted = false;
 var checkCounter = 0;
 let board = null;
+let uuid = null;
 function coloring(){
     const color = document.querySelectorAll('.box')
     color.forEach(color =>{
