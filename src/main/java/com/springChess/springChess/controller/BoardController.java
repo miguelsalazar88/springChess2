@@ -5,10 +5,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springChess.springChess.model.Board;
+import com.springChess.springChess.model.entities.Game;
 import com.springChess.springChess.model.MoveRequest;
 import com.springChess.springChess.model.Position;
+import com.springChess.springChess.repository.GameRepository;
 import com.springChess.springChess.service.BoardService;
-import jakarta.persistence.PostUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/board")
 public class BoardController {
+
+    @Autowired
+    private GameRepository gameRepository;
 
     @Autowired
     private BoardService boardService;
@@ -42,6 +46,15 @@ public class BoardController {
         Board board = objectMapper.treeToValue(nodeBoard, Board.class);
         board.setPosition(new Position(x, y));
         return board;
+    }
+
+    @PostMapping("/save")
+    public Game saveGame(@RequestBody JsonNode requestBody){
+        Game game = new Game();
+        String logs = requestBody.get("logs").asText();
+        game.setLogs(logs);
+        gameRepository.save(game);
+        return game;
     }
 
 }

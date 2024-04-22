@@ -22,8 +22,7 @@ public class Board {
     public Position a = new Position(-1, -1);
     public Position b = new Position(-1, -1);
 
-
-
+    private String logs;
 
 
     public Board() {
@@ -32,6 +31,7 @@ public class Board {
         this.destPosition = new Position(-1,-1);
         this.playerInTurn = "White";
         this.calculatorMoves = new Moves();
+        this.logs = "";
     }
 
     // Method to calculate possible moves for a piece
@@ -145,6 +145,8 @@ public class Board {
             banderaJaque = true;
         }
 
+        saveMove(startRow, startCol, destRow, destCol);
+        System.out.println(this.logs);
         return banderaJaque;
     }
 
@@ -273,6 +275,12 @@ public class Board {
         destPosition = position;
     }
 
+    public void saveMove(int startRow, int startCol, int destRow, int destCol){
+
+        this.logs += startRow + "," + startCol + ";";
+        this.logs += destRow + "," + destCol + ";";
+    }
+
     public Position getStartPosition() {
         return startPosition;
     }
@@ -312,5 +320,13 @@ public class Board {
 
     public String getPlayerInTurn() {
         return playerInTurn;
+    }
+
+    public String getLogs() {
+        return logs;
+    }
+
+    public void setLogs(String logs) {
+        this.logs = logs;
     }
 }

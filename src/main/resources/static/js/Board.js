@@ -1,7 +1,6 @@
 var hasGameStarted = false;
 var checkCounter = 0;
 let board = null;
-let uuid = null;
 function coloring(){
     const color = document.querySelectorAll('.box')
     color.forEach(color =>{
@@ -134,6 +133,27 @@ function checkJaque(banderaJaque, hayGanador){
 function setPlayerInTurn(playerInTurn){
     let element = document.getElementById("tog");
     element.innerHTML = playerInTurn + "'s Turn";
+}
+
+function saveGame(){
+
+    let userData = {logs: board.logs}
+
+    $.ajax({
+        url: "/board/save",
+        type: "POST", // Cambia el tipo de solicitud a POST
+        data: JSON.stringify(userData), // Convierte el objeto a una cadena JSON
+        contentType: "application/json", // Especifica que el tipo de contenido es JSON
+        dataType: "json",
+        success: function(response) {
+            console.log("Success Saving");
+            board = response; // Asigna la respuesta a la variable board
+        },
+        error: function(xhr, status, error) {
+            console.log("Error: " + error);
+        }
+    });
+
 }
 
 coloring();

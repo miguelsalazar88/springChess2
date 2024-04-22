@@ -1,5 +1,7 @@
 package com.springChess.springChess.model;
 
+import com.springChess.springChess.model.entities.Game;
+
 import java.util.ArrayList;
 
 public class Utils {
