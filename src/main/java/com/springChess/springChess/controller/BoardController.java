@@ -10,6 +10,7 @@ import com.springChess.springChess.model.MoveRequest;
 import com.springChess.springChess.model.Position;
 import com.springChess.springChess.repository.GameRepository;
 import com.springChess.springChess.service.BoardService;
+import com.springChess.springChess.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class BoardController {
 
     @Autowired
-    private GameRepository gameRepository;
-
+    private GameService gameService;
     @Autowired
     private BoardService boardService;
 
@@ -53,7 +53,7 @@ public class BoardController {
         Game game = new Game();
         String logs = requestBody.get("logs").asText();
         game.setLogs(logs);
-        gameRepository.save(game);
+        gameService.saveGame(game);
         return game;
     }
 
