@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/board")
 public class BoardController {
@@ -56,5 +58,12 @@ public class BoardController {
         gameService.saveGame(game);
         return game;
     }
+
+    @GetMapping("/all")
+    public List<Game> getAllGames(){
+        return gameService.getAllGames();
+    }
+
+
 
 }

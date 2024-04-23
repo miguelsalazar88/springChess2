@@ -15,4 +15,14 @@ public class NavigationController {
         return "chess_board";
     }
 
+    @GetMapping("/login")
+    public String getLoginPage(){
+        return "login";
+    }
+
+    @GetMapping("/register")
+    public String getRegisterPage(){
+        return "register";
+    }
+
 }
