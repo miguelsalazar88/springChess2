@@ -3,7 +3,7 @@ package com.springChess.springChess.model.entities;
 import jakarta.persistence.*;
 
 @Entity
-public class Game {
+public class git Game {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

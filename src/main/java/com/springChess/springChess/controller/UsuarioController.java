@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
-
+    
     @Autowired
     private UsuarioService usuarioService;
 
@@ -23,6 +23,12 @@ public class UsuarioController {
     public Usuario saveUser(@RequestBody Usuario usuario){
         return usuarioService.saveUsuario(usuario);
     }
+
+    @PostMapping("/login")
+    public Usuario login(@RequestBody Usuario usuario){
+        return usuarioService.loginUsuario(usuario);
+    }
+
 
 
 
