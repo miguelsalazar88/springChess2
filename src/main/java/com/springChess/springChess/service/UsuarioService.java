@@ -1,6 +1,7 @@
 package com.springChess.springChess.service;
 
 import com.springChess.springChess.exceptions.UserNotFoundException;
+import com.springChess.springChess.model.Token;
 import com.springChess.springChess.model.entities.Game;
 import com.springChess.springChess.model.entities.Usuario;
 import com.springChess.springChess.repository.UsuarioRepository;
@@ -25,13 +26,13 @@ public class UsuarioService {
 
     }
 
-    public Usuario loginUsuario(Usuario u){
+    public Token loginUsuario(Usuario u){
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(u.getUsername());
         if(optionalUsuario.isPresent()){
             Usuario dbUser = optionalUsuario.get();
             if(encoder.matches(u.getPassword(), dbUser.getPassword())){
-                return dbUser;
+                return new Token(dbUser.getUsername(), encoder.encode(dbUser.getPassword()));
             }
         } else {
             throw new UserNotFoundException("User not found");

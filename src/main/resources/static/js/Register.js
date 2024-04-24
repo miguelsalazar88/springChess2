@@ -1,3 +1,5 @@
+
+
 function register() {
     let userData = {
         username: document.getElementsByName('username')[0].value,

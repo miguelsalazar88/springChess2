@@ -1,6 +1,7 @@
 package com.springChess.springChess.controller;
 
 
+import com.springChess.springChess.model.Token;
 import com.springChess.springChess.model.entities.Usuario;
 import com.springChess.springChess.repository.UsuarioRepository;
 import com.springChess.springChess.service.UsuarioService;
@@ -25,7 +26,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public Usuario login(@RequestBody Usuario usuario){
+    public Token login(@RequestBody Usuario usuario){
         return usuarioService.loginUsuario(usuario);
     }
 

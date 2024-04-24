@@ -178,6 +178,8 @@ public class Board {
             this.destPosition = position;
             System.out.println(this.isStartPositionSet());
             System.out.println(this.isDestPositionSet());
+            System.out.println("Moves");
+            System.out.println(calculatorMoves.calculatePieceMoves(position, this.getPositions()));
             //if (calculatorMoves.containsPosition(position)) {
 
                 if (movePiece()) {

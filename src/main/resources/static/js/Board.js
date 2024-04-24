@@ -26,7 +26,6 @@ function getResponse(x, y) {
 
     if(!hasGameStarted){
         hasGameStarted = true;
-        setRefreshButton();
     }
 
     if(board == null){
@@ -101,8 +100,6 @@ function paintPieces(positions) {
 }
 
 function setRefreshButton(){
-    let element = document.getElementById("start-game");
-    element.innerHTML = "Refresh";
 }
 
 // To solve the "Check!" alert when the player being attacked sets the first piece

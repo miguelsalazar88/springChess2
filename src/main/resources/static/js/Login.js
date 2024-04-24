@@ -18,13 +18,43 @@ function login() {
             if (response && response.username) {
                 // Construir la URL con el nombre de usuario como parámetro
                 let username = response.username;
-                window.location.href = "/dashboard.html?username=" + encodeURIComponent(username);
-            } else {
-                console.log("Error: La respuesta del servidor no contiene el campo 'username'");
+                setCookie("token",JSON.stringify(response));
+                window.location.replace("/dashboard.html?username=" + encodeURIComponent(username));
             }
         },
         error: function(xhr, status, error) {
-            console.log("Error: " + error);
+            alert("Username or password invalid!")
         }
     });
 }
+function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    let expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+$(document).ready(function(){
+    if(getCookie("token")!=""){
+        let token=getCookie("token");
+        let user=JSON.parse(token);
+        let username=user.username;
+        window.location.replace("/dashboard.html?username=" + encodeURIComponent(username));
+
+    }
+});

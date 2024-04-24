@@ -25,4 +25,8 @@ public class GameService {
         return gameRepository.findAll();
     }
 
+    public List<Game> findByLogs(String logs){
+        return gameRepository.findGameByLogs(logs);
+    }
+
 }

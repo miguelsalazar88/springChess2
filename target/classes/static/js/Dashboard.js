@@ -1,3 +1,25 @@
+
+$(document).ready(function(){
+    if(getCookie("token")==""){
+        window.location.replace("/index.html");
+
+    }
+});
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
 document.addEventListener('DOMContentLoaded', function() {
     // Capturar el nombre de usuario de la URL
     function getParameterByName(name) {
@@ -52,5 +74,11 @@ $(document).ready(function() {
         }
     });
 });
+
+function logOut(){
+    document.cookie = 'token' +
+        '=; expires=Thu, 01-Jan-70 00:00:01 GMT;';
+    window.location.replace("/index.html");
+};
 
 
