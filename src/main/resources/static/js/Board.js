@@ -156,4 +156,6 @@ function saveGame(){
 
 }
 
+
+
 coloring();
