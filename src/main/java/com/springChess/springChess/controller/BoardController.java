@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springChess.springChess.model.Board;
+import com.springChess.springChess.model.Utils;
 import com.springChess.springChess.model.entities.Game;
 import com.springChess.springChess.model.MoveRequest;
 import com.springChess.springChess.model.Position;
@@ -27,6 +28,8 @@ public class BoardController {
     private BoardService boardService;
 
     private final ObjectMapper objectMapper;
+    @Autowired
+    private GameRepository gameRepository;
 
     public BoardController(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
@@ -64,6 +67,19 @@ public class BoardController {
         return gameService.getAllGames();
     }
 
+    @GetMapping("/loadGame")
+    public ResponseEntity<Board> getGame(Long id){
+
+        if(id == -1){
+            return ResponseEntity.ok(boardService.newGame());
+        }
+
+        System.out.println(id);
+        Game savedGame = gameService.getGame(id);
+        Board board = Utils.createGame();
+        board = Utils.updateBoard(board, savedGame);
+        return ResponseEntity.ok(board);
+    }
 
 
 }

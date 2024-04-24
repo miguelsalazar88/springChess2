@@ -156,6 +156,33 @@ function saveGame(){
 
 }
 
+function getParameterByName(id) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(id);
+}
 
+$(document).ready(function() {
+    const id = getParameterByName('id');
+    console.log(id);
+
+    $.ajax({
+        url: "/board/loadGame?id=" + id,
+        type: "GET",
+        success: function(response) {
+            // La función que se ejecutará cuando la petición sea exitosa
+            console.log("Success");
+            console.log(response.positions);
+            paintPieces(response.positions);
+            checkJaque(response.banderaJaque, response.hayGanador);
+            setPlayerInTurn(response.playerInTurn);
+            board = response;
+        },
+        error: function(xhr, status, error) {
+            // La función que se ejecutará si hay un error en la petición
+            console.error("Error en la petición:", status, error);
+            // Aquí puedes manejar el error de alguna manera
+        }
+    });
+});
 
 coloring();
