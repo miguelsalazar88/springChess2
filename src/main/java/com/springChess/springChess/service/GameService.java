@@ -29,4 +29,8 @@ public class GameService {
         return gameRepository.findGameByLogs(logs);
     }
 
+//    public void updateGame(Game game){
+//        gameRepository.updateGameById(game);
+//    }
+
 }

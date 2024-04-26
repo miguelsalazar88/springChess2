@@ -55,6 +55,13 @@ public class BoardController {
         Board board = objectMapper.treeToValue(nodeBoard, Board.class);
         board.setPosition(new Position(x, y));
         simpMessagingTemplate.convertAndSend("/topic/game-progress/" + moveRequest.getGameId(), board);
+        if(moveRequest.getGameId() != -1){
+            Game game = new Game();
+            game.setLogs(board.getLogs());
+            game.setId(moveRequest.getGameId());
+            gameService.saveGame(game);
+            System.out.println("Juego Guardado");
+        }
         return board;
     }
 
