@@ -8,6 +8,20 @@ public class MoveRequest {
     private int x;
     private int y;
     private JsonNode board;
+    private Long gameId;
+
+    public MoveRequest() {
+    }
+
+
+
+    public Long getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(Long gameId) {
+        this.gameId = gameId;
+    }
 
     public int getX() {
         return x;

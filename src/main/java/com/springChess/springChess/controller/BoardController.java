@@ -14,6 +14,7 @@ import com.springChess.springChess.service.BoardService;
 import com.springChess.springChess.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,8 +32,11 @@ public class BoardController {
     @Autowired
     private GameRepository gameRepository;
 
-    public BoardController(ObjectMapper objectMapper) {
+    private final SimpMessagingTemplate simpMessagingTemplate;
+
+    public BoardController(ObjectMapper objectMapper, SimpMessagingTemplate simpMessagingTemplate) {
         this.objectMapper = objectMapper;
+        this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
     @GetMapping("/newGame")
@@ -46,10 +50,11 @@ public class BoardController {
         // Aquí puedes acceder a los datos recibidos en el cuerpo de la solicitud
         int x = moveRequest.getX();
         int y = moveRequest.getY();
-        System.out.println("x: " + x + ", y:" + y);
+        System.out.println("El id es: " + moveRequest.getGameId());
         JsonNode nodeBoard = moveRequest.getBoard();
         Board board = objectMapper.treeToValue(nodeBoard, Board.class);
         board.setPosition(new Position(x, y));
+        simpMessagingTemplate.convertAndSend("/topic/game-progress/" + moveRequest.getGameId(), board);
         return board;
     }
 
@@ -73,7 +78,6 @@ public class BoardController {
         if(id == -1){
             return ResponseEntity.ok(boardService.newGame());
         }
-
         System.out.println(id);
         Game savedGame = gameService.getGame(id);
         Board board = Utils.createGame();

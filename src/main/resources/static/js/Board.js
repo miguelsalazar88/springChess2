@@ -1,6 +1,9 @@
 var hasGameStarted = false;
 var checkCounter = 0;
 let board = null;
+let id = null;
+const url = "http://localhost:8080";
+let stompClient;
 function coloring(){
     const color = document.querySelectorAll('.box')
     color.forEach(color =>{
@@ -56,7 +59,8 @@ function getResponse(x, y) {
         let userData = {
             x: x,
             y: y,
-            board: board // Agrega la variable board al objeto userData
+            board: board,
+            gameId: id// Agrega la variable board al objeto userData
         };
 
         $.ajax({
@@ -159,7 +163,7 @@ function getParameterByName(id) {
 }
 
 $(document).ready(function() {
-    const id = getParameterByName('id');
+    id = getParameterByName('id');
     console.log(id);
 
     $.ajax({
@@ -172,6 +176,7 @@ $(document).ready(function() {
             paintPieces(response.positions);
             checkJaque(response.banderaJaque, response.hayGanador);
             setPlayerInTurn(response.playerInTurn);
+            connectToSocket(id);
             board = response;
         },
         error: function(xhr, status, error) {
@@ -181,5 +186,25 @@ $(document).ready(function() {
         }
     });
 });
+
+function connectToSocket(gameId){
+    console.log("connecting to the game");
+    let socket = new SockJS(url + "/gameplay");
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame){
+        stompClient.subscribe("/topic/game-progress/" + String(gameId), function (response){
+            let data = JSON.parse(response.body);
+            console.log(data.positions)
+            paintPieces(data.positions);
+            checkJaque(data.banderaJaque, data.hayGanador);
+            setPlayerInTurn(data.playerInTurn);
+        })
+    })
+
+}
+
+function connectToSpecificGame(){
+
+}
 
 coloring();
